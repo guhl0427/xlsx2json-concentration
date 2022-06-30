@@ -1,0 +1,22 @@
+{
+  "name": "concentration_tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "convert": "ts-node src/Tools.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^18.0.0",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "minimist": "^1.2.6",
+    "xlsx": "^0.18.5"
+  }
+}
