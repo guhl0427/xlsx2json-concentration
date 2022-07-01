@@ -11,4 +11,4 @@ if(params.id === undefined) {
 }
 
 parseFile(path.join(assetDir, `lesson${params.id}.xlsx`));
-handleImage(path.join(assetDir, `lesson${params.id}`));
+// handleImage(path.join(assetDir, `lesson${params.id}`));

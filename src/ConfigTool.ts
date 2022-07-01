@@ -151,13 +151,37 @@ let props5: Prop[] = [
     { name: "effectId" }
 ];
 
+let props7: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "subType" },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "picture" },
+    { name: "picturePos", actions: [splitToNumbers] },
+    {
+        name: "items", complex: {
+            count: 4,
+            props: [
+                { name: "scenePos", actions: [splitToNumbers] },
+                { name: "isRight", actions: [parseBoolean] },
+            ]
+        }
+    },
+    { name: "rightTagPos", actions: [splitToNumbers] },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" }
+];
+
+
 let propMap: { [key: number]: Prop[] } = {
     2: props,
     3: props2,
     4: props3,
     5: props4,
     6: props5,
-    7: props
+    7: props7
 };
 
 function parse(worksheet: xlsx.WorkSheet, props: Prop[]): any {
@@ -168,28 +192,37 @@ function parse(worksheet: xlsx.WorkSheet, props: Prop[]): any {
         for (let prop of props) {
             if (prop.complex) {
                 info[prop.name] = [];
-                for (let j = 0; j < prop.complex.count; j++) {
+                position++;
+                let count = getWorksheetValue(worksheet, `${numToColumn(position)}${i}`);
+                for (let j = 0; j < count; j++) {
                     let item: any = {};
-                    for (let subProp of prop.complex.props) {
+                    let props = prop.complex.props;
+                    for (let subProp of props) {
                         position++;
                         let value = getWorksheetValue(worksheet, `${numToColumn(position)}${i}`, subProp.actions);
                         if (subProp.checkNull && value === null) {
-                            position += prop.complex.props.length - 1;
+                            // NOTE: 
+                            position += props.length - 1;
                             break;
                         }
                         item[subProp.name] = value;
                     }
+                    // 自动注入index
+                    item.index = j;
                     if (Object.getOwnPropertyNames(item).length > 0) {
                         info[prop.name].push(item);
                     }
                 }
-            } else {
+            }
+            else {
                 position++;
-                if (prop.offset) {
+                // NOTE: 没看懂 先注释
+                /* if (prop.offset) {
                     position += prop.offset;
-                }
+                } */
                 let value = getWorksheetValue(worksheet, `${numToColumn(position)}${i}`, prop.actions);
                 if (prop.checkNull && value === null) {
+                    // NOTE: 
                     position += props.length - 1;
                     break out;
                 }
@@ -209,9 +242,14 @@ export function parseFile(filePath: string): void {
         let array = name.split("_");
         if (array.length > 1) {
             let type = parseInt(array[1].replace("type", ""));
-            datas.set(type, parse(workbook.Sheets[name], propMap[type]));
+            if (array[2]) {
+                let stepId = parseInt(array[2]);
+                const parseData = parse(workbook.Sheets[name], propMap[type])
+                datas.set(stepId, parseData);
+            }
         }
     }
+    console.log({ datas })
     let configs: any[] = [];
     let worksheet = workbook.Sheets[workbook.SheetNames[0]];
     // 从第三行开始遍历
@@ -223,9 +261,10 @@ export function parseFile(filePath: string): void {
         // 获取环节类型
         let typeStr = getWorksheetValue(worksheet, `B${i}`);
         let type = parseInt(typeStr.split("_")[1].replace("type", ""));
+        let stepId = getWorksheetValue(worksheet, `A${i}`);
         let step: any = {};
         // 环节stepId 默认就是number?
-        step.stepId = getWorksheetValue(worksheet, `A${i}`);
+        step.stepId = stepId;
         step.stepType = type;
         if (type === 1) {
             step.cfg = {
@@ -233,9 +272,10 @@ export function parseFile(filePath: string): void {
             };
         } else {
             let id = getWorksheetValue(worksheet, `C${i}`, [parseInt]);
-            let configs = datas.get(type);
-            if (configs) {
-                for (let config of configs) {
+            let quesDatas = datas.get(stepId);
+            console.log(quesDatas)
+            if (quesDatas) {
+                for (let config of quesDatas) {
                     if (config.id === id) {
                         step.cfg = config;
                         break;
@@ -255,11 +295,11 @@ export function parseFile(filePath: string): void {
 function getWorksheetValue(worksheet: xlsx.WorkSheet, pos: string, actions: Function[] = [], defaultValue: any = null): any {
     if (worksheet[pos]) {
         let result = worksheet[pos].v;
-        if(typeof(result) === 'string') {
-            if(result.indexOf(".png.png") >= 0) {
+        if (typeof result === 'string') {
+            if (result.indexOf(".png.png") >= 0) {
                 result = result.replace(".png.png", ".png");
             }
-            if(result.indexOf("/bg.png") >=0) {
+            if (result.indexOf("/bg.png") >= 0) {
                 result = result.replace("bg.png", "bg.jpg");
             }
             result = result.trim();
@@ -275,14 +315,14 @@ function getWorksheetValue(worksheet: xlsx.WorkSheet, pos: string, actions: Func
 }
 
 function splitToNumbers(raw: string): number[] {
+    let result: number[] = [];
     if (raw && raw.length > 0) {
-        let result: number[] = [];
         for (let item of raw.split(",")) {
             result.push(Number(item));
         }
         return result;
     }
-    return [];
+    return result;
 }
 
 function parseBoolean(raw: string): boolean {
