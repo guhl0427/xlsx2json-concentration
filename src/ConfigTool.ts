@@ -13,7 +13,7 @@ type Prop = {
     }
 };
 
-let props: Prop[] = [
+/* let props: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
     { name: "bg" },
     { name: "questionContent" },
@@ -149,9 +149,9 @@ let props5: Prop[] = [
     { name: "allRightAudio" },
     { name: "finishAudio" },
     { name: "effectId" }
-];
+]; */
 
-let props7: Prop[] = [
+let props1: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
     { name: "subType" },
     { name: "bg" },
@@ -174,14 +174,37 @@ let props7: Prop[] = [
     { name: "effectId" }
 ];
 
+let props2: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "subType", actions: [subOne] },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "refPicUrl" },
+    { name: "refPicPos", actions: [splitToNumbers] },
+    { name: "answerPicUrl" },
+    { name: "answerPicPos", actions: [splitToNumbers] },
+    { name: "rightAnswer", actions: [splitToArray] },
+    { name: "lineColor" },
+    { name: "lineWidth", actions: [parseInt] },
+    {
+        name: "items", complex: {
+            count: 4,
+            props: [
+                { name: "pos", actions: [splitToNumbers] },
+            ]
+        }
+    },
+    { name: "itemScale", actions: [parseInt] },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" }
+];
+
 
 let propMap: { [key: number]: Prop[] } = {
-    2: props,
+    2: props1,
     3: props2,
-    4: props3,
-    5: props4,
-    6: props5,
-    7: props7
 };
 
 function parse(worksheet: xlsx.WorkSheet, props: Prop[]): any {
@@ -319,6 +342,17 @@ function splitToNumbers(raw: string): number[] {
     if (raw && raw.length > 0) {
         for (let item of raw.split(",")) {
             result.push(Number(item));
+        }
+        return result;
+    }
+    return result;
+}
+
+function splitToArray(raw: string): any[] {
+    let result: any[] = [];
+    if (raw && raw.length > 0) {
+        for (let item of raw.split(",")) {
+            result.push(item);
         }
         return result;
     }
