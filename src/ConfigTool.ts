@@ -12,144 +12,6 @@ type Prop = {
     }
 };
 
-/* let props: Prop[] = [
-    { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "bg" },
-    { name: "questionContent" },
-    { name: "questionAudio" },
-    { name: "picture" },
-    {
-        name: "items", complex: {
-            count: 6,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "sceneUrl" },
-                { name: "optionUrl" },
-                { name: "scenePos", actions: [splitToNumbers] },
-                { name: "isRight", actions: [parseBoolean] }
-            ]
-        }
-    },
-    { name: "optionCount", actions: [parseInt] },
-    { name: "wrongAudio" },
-    { name: "guideAudio" },
-    { name: "finishAudio" },
-    { name: "effectId" }
-];
-
-let props2: Prop[] = [
-    { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "bg" },
-    { name: "questionContent" },
-    { name: "questionAudio" },
-    {
-        name: "items", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "audioUrl" },
-                { name: "idleUrl" },
-                { name: "talkUrl" },
-            ]
-        }
-    },
-    { name: "finishAudio" },
-    { name: "effectId" }
-];
-
-let props3: Prop[] = [
-    { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "bg" },
-    { name: "questionContent" },
-    { name: "questionAudio" },
-    {
-        name: "items", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "imgUrl" }
-            ]
-        }
-    },
-    { name: "rightItemIndex", actions: [subOne] },
-    { name: "rightAudio" },
-    { name: "wrongAudio" },
-    { name: "finishAudio" },
-    { name: "effectId" }
-];
-
-let props4: Prop[] = [
-    { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "bg" },
-    { name: "questionContent" },
-    { name: "questionAudio" },
-    { name: "questionImage" },
-    { name: "questionImagePos", actions: [splitToNumbers] },
-    { name: "optionPos", actions: [splitToNumbers] },
-    {
-        name: "items", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "optionUrl" },
-                { name: "sceneUrl" },
-                { name: "scenePos", actions: [splitToNumbers] },
-                { name: "isRight", actions: [parseBoolean] },
-            ]
-        }
-    },
-    { name: "rightItemIndex", actions: [subOne] },
-    { name: "rightImage" },
-    { name: "rightAudio" },
-    { name: "wrongAudio" },
-    { name: "finishAudio" },
-    { name: "effectId" }
-];
-
-let props5: Prop[] = [
-    { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "subType", actions: [subOne] },
-    { name: "bg" },
-    { name: "questionContent" },
-    { name: "questionAudio" },
-    { name: "questionImage" },
-    {
-        name: "targets", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "imageUrl" },
-                { name: "bounds", actions: [splitToNumbers] }
-            ]
-        }
-    },
-    {
-        name: "items", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "imageUrl" },
-                { name: "targetId", actions: [subOne] }
-            ]
-        }
-    },
-    {
-        name: "explain", complex: {
-            count: 4,
-            props: [
-                { name: "index", checkNull: true, actions: [subOne] },
-                { name: "imageUrl" },
-                { name: "audioUrl" }
-            ]
-        }
-    },
-    { name: "rightAudio" },
-    { name: "wrongAudio" },
-    { name: "allRightAudio" },
-    { name: "finishAudio" },
-    { name: "effectId" }
-]; */
-
 let multiChoiceProps: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
     { name: "subType" },
@@ -225,7 +87,7 @@ let selectMatchProps: Prop[] = [
     { name: "bg" },
     { name: "questionAudio" },
     { name: "picUrl" },
-    { name: "picPos", actions: [splitToNumbers] },    
+    { name: "picPos", actions: [splitToNumbers] },
     { name: "rightAnswer" },
     {
         name: "items", complex: {
@@ -250,8 +112,31 @@ let selectMatchProps: Prop[] = [
     { name: "effectId" }
 ];
 
+let findDiffProps: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "leftBoxUrl" },
+    { name: "leftBoxPos", actions: [splitToNumbers] },
+    { name: "rightBoxUrl" },
+    { name: "rightBoxPos", actions: [splitToNumbers] },
+    {
+        name: "items", complex: {
+            props: [
+                { name: "optionUrl" },
+                { name: "scenePos", actions: [splitToNumbers] },
+            ]
+        }
+    },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" }
+];
+
 let propMap: { [key: number]: Prop[] } = {
     2: multiChoiceProps,
+    3: findDiffProps,
     5: drawLineProps,
     6: gridOrderClickProps,
     9: selectMatchProps
