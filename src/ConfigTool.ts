@@ -8,7 +8,6 @@ type Prop = {
     checkNull?: boolean,
     actions?: Function[]
     complex?: {
-        count: number,
         props: Prop[]
     }
 };
@@ -151,7 +150,7 @@ let props5: Prop[] = [
     { name: "effectId" }
 ]; */
 
-let props1: Prop[] = [
+let multiChoiceProps: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
     { name: "subType" },
     { name: "bg" },
@@ -160,7 +159,6 @@ let props1: Prop[] = [
     { name: "picturePos", actions: [splitToNumbers] },
     {
         name: "items", complex: {
-            count: 4,
             props: [
                 { name: "scenePos", actions: [splitToNumbers] },
                 { name: "isRight", actions: [parseBoolean] },
@@ -174,7 +172,7 @@ let props1: Prop[] = [
     { name: "effectId" }
 ];
 
-let props2: Prop[] = [
+let drawLineProps: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
     { name: "subType", actions: [subOne] },
     { name: "bg" },
@@ -188,7 +186,6 @@ let props2: Prop[] = [
     { name: "lineWidth", actions: [parseInt] },
     {
         name: "items", complex: {
-            count: 4,
             props: [
                 { name: "pos", actions: [splitToNumbers] },
             ]
@@ -201,10 +198,63 @@ let props2: Prop[] = [
     { name: "effectId" }
 ];
 
+let gridOrderClickProps: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "refPicUrl" },
+    { name: "refPicPos", actions: [splitToNumbers] },
+    { name: "gridPicUrl" },
+    { name: "gridPicPos", actions: [splitToNumbers] },
+    { name: "gridOffset", actions: [splitToNumbers] },
+    { name: "gridRows", actions: [parseInt] },
+    { name: "gridColumns", actions: [parseInt] },
+    { name: "gridSize", actions: [splitToNumbers] },
+    { name: "gridGap", actions: [splitToNumbers] },
+    { name: "gridData" },
+    { name: "rightAnswer" },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "guideAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" }
+];
+
+let selectMatchProps: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "picUrl" },
+    { name: "picPos", actions: [splitToNumbers] },    
+    { name: "rightAnswer" },
+    {
+        name: "items", complex: {
+            props: [
+                { name: "normalUrl" },
+                { name: "selectUrl" },
+                { name: "pos", actions: [splitToNumbers] },
+            ]
+        }
+    },
+    {
+        name: "lines", complex: {
+            props: [
+                { name: "url" },
+                { name: "pos", actions: [splitToNumbers] },
+            ]
+        }
+    },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" }
+];
 
 let propMap: { [key: number]: Prop[] } = {
-    2: props1,
-    3: props2,
+    2: multiChoiceProps,
+    5: drawLineProps,
+    6: gridOrderClickProps,
+    9: selectMatchProps
 };
 
 function parse(worksheet: xlsx.WorkSheet, props: Prop[]): any {
