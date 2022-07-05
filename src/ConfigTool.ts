@@ -43,7 +43,7 @@ let drawLineProps: Prop[] = [
     { name: "refPicPos", actions: [splitToNumbers] },
     { name: "answerPicUrl" },
     { name: "answerPicPos", actions: [splitToNumbers] },
-    { name: "rightAnswer", actions: [splitToArray] },
+    { name: "rightAnswer" },
     { name: "lineColor" },
     { name: "lineWidth", actions: [parseInt] },
     {
@@ -245,9 +245,10 @@ export function parseFile(filePath: string): void {
     }
 
     let dirName = path.dirname(filePath);
-    let fileName = path.basename(filePath).replace(path.extname(filePath), "");
+    let fileName = path.basename(filePath, path.extname(filePath));
     // fileName = fileName.split("_")[1];
-    fs.writeFileSync(path.join(dirName, `${fileName}.json`), JSON.stringify(configs));
+    let outFilePath = path.join(dirName, fileName, `${fileName}.json`);
+    fs.writeFileSync(outFilePath, JSON.stringify(configs));
 }
 
 function getWorksheetValue(worksheet: xlsx.WorkSheet, pos: string, actions: Function[] = [], defaultValue: any = null): any {

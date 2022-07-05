@@ -3,7 +3,7 @@ import path from "path";
 import { parseFile } from "./ConfigTool";
 import { handleImage } from "./ImageTool";
 
-const assetDir = `D:\\work\\excel`;
+const assetDir = `D:/work/excel/concentration`;
 
 const params = minimist(process.argv.slice(2));
 if(params.id === undefined) {
@@ -11,4 +11,4 @@ if(params.id === undefined) {
 }
 
 parseFile(path.join(assetDir, `lesson${params.id}.xlsx`));
-// handleImage(path.join(assetDir, `lesson${params.id}`));
+handleImage(path.join(assetDir, `lesson${params.id}`));
