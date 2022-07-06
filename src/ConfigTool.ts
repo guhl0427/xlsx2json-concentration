@@ -14,20 +14,23 @@ type Prop = {
 
 let multiChoiceProps: Prop[] = [
     { name: "id", checkNull: true, actions: [parseInt] },
-    { name: "subType" },
     { name: "bg" },
     { name: "questionAudio" },
+    { name: "questionAudio2" },
     { name: "picture" },
     { name: "picturePos", actions: [splitToNumbers] },
     {
         name: "items", complex: {
             props: [
                 { name: "scenePos", actions: [splitToNumbers] },
+                { name: "rightTagPos", actions: [splitToNumbers] },
                 { name: "isRight", actions: [parseBoolean] },
             ]
         }
     },
+    { name: "rightTagUrl" },
     { name: "rightTagPos", actions: [splitToNumbers] },
+    { name: "guideAudio" },
     { name: "completeAudio" },
     { name: "wrongAudio" },
     { name: "finishAudio" },
