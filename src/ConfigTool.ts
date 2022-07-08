@@ -42,6 +42,7 @@ let drawLineProps: Prop[] = [
     { name: "subType", actions: [subOne] },
     { name: "bg" },
     { name: "questionAudio" },
+    { name: "questionAudio2" },
     { name: "refPicUrl" },
     { name: "refPicPos", actions: [splitToNumbers] },
     { name: "answerPicUrl" },
