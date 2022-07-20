@@ -34,7 +34,8 @@ let multiChoiceProps: Prop[] = [
     { name: "completeAudio" },
     { name: "wrongAudio" },
     { name: "finishAudio" },
-    { name: "effectId" }
+    { name: "effectId" },
+    { name: "guideCountdown", actions: [parseInt] }
 ];
 
 let drawLineProps: Prop[] = [
@@ -61,7 +62,8 @@ let drawLineProps: Prop[] = [
     { name: "completeAudio" },
     { name: "wrongAudio" },
     { name: "finishAudio" },
-    { name: "effectId" }
+    { name: "effectId" },
+    { name: "guideCountdown", actions: [parseInt] }
 ];
 
 let gridOrderClickProps: Prop[] = [
@@ -70,6 +72,7 @@ let gridOrderClickProps: Prop[] = [
     { name: "questionAudio" },
     { name: "refPicUrl" },
     { name: "refPicPos", actions: [splitToNumbers] },
+    { name: "gridBlockUrl" },
     { name: "gridPicUrl" },
     { name: "gridPicPos", actions: [splitToNumbers] },
     { name: "gridOffset", actions: [splitToNumbers] },
@@ -113,7 +116,8 @@ let selectMatchProps: Prop[] = [
     { name: "completeAudio" },
     { name: "wrongAudio" },
     { name: "finishAudio" },
-    { name: "effectId" }
+    { name: "effectId" },
+    { name: "guideCountdown", actions: [parseInt] }
 ];
 
 let findDiffProps: Prop[] = [
@@ -138,11 +142,33 @@ let findDiffProps: Prop[] = [
     { name: "effectId" }
 ];
 
+let fillColorProps: Prop[] = [
+    { name: "id", checkNull: true, actions: [parseInt] },
+    { name: "subType", actions: [subOne] },
+    { name: "bg" },
+    { name: "questionAudio" },
+    { name: "questionAudio2" },
+    { name: "itemUrl", actions: [splitToArray] },
+    { name: "gridOffset", actions: [splitToNumbers] },
+    { name: "gridRows", actions: [parseInt] },
+    { name: "gridColumns", actions: [parseInt] },
+    { name: "gridSize", actions: [splitToNumbers] },
+    { name: "gridGap", actions: [splitToNumbers] },
+    { name: "initColor", actions: [splitToNumbers] },
+    { name: "rightAnswer" },
+    { name: "completeAudio" },
+    { name: "wrongAudio" },
+    { name: "finishAudio" },
+    { name: "effectId" },
+    { name: "guideCountdown", actions: [parseInt] }
+]
+
 let propMap: { [key: number]: Prop[] } = {
     2: multiChoiceProps,
     3: findDiffProps,
     5: drawLineProps,
     6: gridOrderClickProps,
+    7: fillColorProps,
     9: selectMatchProps
 };
 
